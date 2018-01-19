@@ -6,35 +6,33 @@
 module Reverse where
 
 import Prelude hiding (reverse, (++))
+import Lib.Derivations
 
 -------------------------------------------------------------------------------
 -- | Specification of reverse' ------------------------------------------------
 -------------------------------------------------------------------------------
 
-{-@ specReverseOpt :: xs:[a] -> ys:[a] 
-                 -> {reverseOpt xs ys = reverse xs ++ ys} @-}
-specReverseOpt :: [a] -> [a] -> ()
-specReverseOpt _ _ = undefined   
+{-@ specReverse' :: xs:[a] -> ys:[a] 
+                 -> {reverse' xs ys = reverse xs ++ ys} @-}
+specReverse' :: [a] -> [a] -> ()
+specReverse' _ _ = undefined   
 
 -------------------------------------------------------------------------------
 -- | Derivation of reverse' ---------------------------------------------------
 -------------------------------------------------------------------------------
 
--- LH TODO: LH is not letting you define a measure and a Haskell function
--- with the same name, for now...
-{-@ measure reverseOpt :: [a] -> [a] -> [a] @-}
 reverse' :: [a] -> [a] -> [a]
-{-@ reverse' :: xs:[a] -> ys:[a] -> { reverseOpt xs ys = reverse xs ++ ys } @-}
+{-@ reverse' :: xs:[a] -> ys:[a] -> { reverse' xs ys = reverse xs ++ ys } @-}
 reverse' [] ys 
   =   reverse [] ++ ys 
-  ==? [] ++ ys ? specReverseOpt [] ys 
+  ==? [] ++ ys ? specReverse' [] ys 
   ==. ys 
   ^^^ Defined 
 
 
 reverse' (x:xs) ys 
   =   reverse (x:xs) ++ ys  
-  ==? (reverse xs ++ [x]) ++ ys ? specReverseOpt (x:xs) ys
+  ==? (reverse xs ++ [x]) ++ ys ? specReverse' (x:xs) ys
   ==? reverse xs ++ ([x] ++ ys) ? assoc (reverse xs) [x] ys
   ==. reverse xs ++ (x:ys) 
   ==. reverse' xs (x:ys)
