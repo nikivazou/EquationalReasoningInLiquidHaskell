@@ -6,56 +6,58 @@
 module Reverse where
 
 import Prelude hiding (reverse, (++))
-import Language.Haskell.Liquid.ProofCombinators
 
 -------------------------------------------------------------------------------
 -- | Specification of reverse' ------------------------------------------------
 -------------------------------------------------------------------------------
 
-{-@ specReverse' :: xs:[a] -> ys:[a] 
-                 -> {reverse' xs ys = reverse xs ++ ys} @-}
-specReverse' :: [a] -> [a] -> Proof
-specReverse' _ _ = undefined   
+{-@ specReverseOpt :: xs:[a] -> ys:[a] 
+                 -> {reverseOpt xs ys = reverse xs ++ ys} @-}
+specReverseOpt :: [a] -> [a] -> ()
+specReverseOpt _ _ = undefined   
 
 -------------------------------------------------------------------------------
 -- | Derivation of reverse' ---------------------------------------------------
 -------------------------------------------------------------------------------
 
-derivationReverse' :: [a] -> [a] -> Proof 
-{-@ derivationReverse' :: xs:[a] -> ys:[a] -> { reverse' xs ys = reverse xs ++ ys } @-}
-derivationReverse' [] ys 
-  =   reverse' [] ys 
-  ==. reverse [] ++ ys ? specReverse' [] ys 
-  ==. [] ++ ys 
+-- LH TODO: LH is not letting you define a measure and a Haskell function
+-- with the same name, for now...
+{-@ measure reverseOpt :: [a] -> [a] -> [a] @-}
+reverse' :: [a] -> [a] -> [a]
+{-@ reverse' :: xs:[a] -> ys:[a] -> { reverseOpt xs ys = reverse xs ++ ys } @-}
+reverse' [] ys 
+  =   reverse [] ++ ys 
+  ==? [] ++ ys ? specReverseOpt [] ys 
   ==. ys 
   ^^^ Defined 
-derivationReverse' (x:xs) ys 
-  =   reverse' (x:xs) ys
-  ==. reverse (x:xs) ++ ys ? specReverse' (x:xs) ys 
-  ==. (reverse xs ++ [x]) ++ ys
-  ==. reverse xs ++ ([x] ++ ys) ? assoc (reverse xs) [x] ys
+
+
+reverse' (x:xs) ys 
+  =   reverse (x:xs) ++ ys  
+  ==? (reverse xs ++ [x]) ++ ys ? specReverseOpt (x:xs) ys
+  ==? reverse xs ++ ([x] ++ ys) ? assoc (reverse xs) [x] ys
   ==. reverse xs ++ (x:ys) 
-  ==. reverse' xs (x:ys)    ? derivationReverse' xs (x:ys) 
+  ==. reverse' xs (x:ys)
   ^^^ Defined 
 
--------------------------------------------------------------------------------
--- | Goal: Automatic Derivation of reverse' -----------------------------------
--------------------------------------------------------------------------------
+data Defined = Defined
+infixl 2 ^^^
+x ^^^ Defined = x 
 
-{-@ reflect reverse' @-}
-reverse' :: [a] -> [a] -> [a]
-reverse' [] ys     = ys 
-reverse' (x:xs) ys = reverse' xs (x:ys)
+{-# INLINE (^^^) #-} 
+infixl 3 ==?, ==., ? 
+
+f ? x = f x 
+_ ==. x = x 
+(==?) _ _ x = x 
+{-# INLINE (?)   #-} 
+{-# INLINE (==.) #-} 
+{-# INLINE (==?) #-} 
 
 
 -------------------------------------------------------------------------------
 -- | Helpers: Definitions & Theorems Used -------------------------------------
 -------------------------------------------------------------------------------
-
-
-data Defined = Defined
-infixl 2 ^^^
-_ ^^^ Defined = ()   
 
 {-@ reflect reverse @-}
 reverse :: [a] -> [a]
@@ -71,7 +73,7 @@ reverse (x:xs) = reverse xs ++ [x]
 {-@ automatic-instances assoc @-}
 {-@ assoc :: xs:[a] -> ys:[a] -> zs:[a] 
           -> { xs ++ (ys ++ zs) == (xs ++ ys) ++ zs }  @-}
-assoc :: [a] -> [a] -> [a] -> Proof 
+assoc :: [a] -> [a] -> [a] -> () 
 assoc [] _ _       = ()
 assoc (x:xs) ys zs = assoc xs ys zs
 
