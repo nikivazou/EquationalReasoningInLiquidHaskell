@@ -1,4 +1,4 @@
-module Lib.Derivations where
+-- module Lib.Derivations where
 
 
 data Defined = Defined
@@ -6,12 +6,13 @@ infixl 2 ^^^
 x ^^^ Defined = x 
 
 {-# INLINE (^^^) #-} 
-infixl 3 ==?, ==., ? 
+infixl 3 ==., ? 
 
-f ? x = f x 
+x ? _ = x 
+
+(==.) :: a -> a -> a 
 _ ==. x = x 
-(==?) _ _ x = x 
+
 {-# INLINE (?)   #-} 
 {-# INLINE (==.) #-} 
-{-# INLINE (==?) #-} 
 

@@ -1,12 +1,17 @@
 {-@ LIQUID "--exactdc" @-}
 {-@ LIQUID "--higherorder" @-}
-{-@ LIQUID "--automatic-instances=liquidinstanceslocal" @-}
-{-@ infix   ++ @-}
+
+{-# LANGUAGE CPP #-}
 
 module Reverse where
 
 import Prelude hiding (reverse, (++))
-import Lib.Derivations
+
+import Data.List 
+{-@ infix   ++ @-}
+
+-- Lib included instead of imported to allow for inlining
+#include "Lib/Derivations.hs"   
 
 -------------------------------------------------------------------------------
 -- | Specification of reverse' ------------------------------------------------
@@ -24,41 +29,18 @@ specReverse' _ _ = undefined
 reverse' :: [a] -> [a] -> [a]
 {-@ reverse' :: xs:[a] -> ys:[a] -> { reverse' xs ys = reverse xs ++ ys } @-}
 reverse' [] ys 
-  =   reverse [] ++ ys 
-  ==? [] ++ ys ? specReverse' [] ys 
+  =   reverse [] ++ ys ? specReverse' [] ys 
+  ==. [] ++ ys 
   ==. ys 
   ^^^ Defined 
 
 
 reverse' (x:xs) ys 
-  =   reverse (x:xs) ++ ys  
-  ==? (reverse xs ++ [x]) ++ ys ? specReverse' (x:xs) ys
-  ==? reverse xs ++ ([x] ++ ys) ? assoc (reverse xs) [x] ys
+  =   reverse (x:xs) ++ ys    
+      ? specReverse' (x:xs) ys
+  ==. (reverse xs ++ [x]) ++ ys 
+      ? assoc (reverse xs) [x] ys
+  ==. reverse xs ++ ([x] ++ ys) 
   ==. reverse xs ++ (x:ys) 
   ==. reverse' xs (x:ys)
   ^^^ Defined 
-
--------------------------------------------------------------------------------
--- | Helpers: Definitions & Theorems Used -------------------------------------
--------------------------------------------------------------------------------
-
-{-@ reflect reverse @-}
-reverse :: [a] -> [a]
-reverse []     = []
-reverse (x:xs) = reverse xs ++ [x]
-
-{-@ reflect ++ @-}
-(++) :: [a] -> [a] -> [a]
-[]     ++ ys = ys
-(x:xs) ++ ys = x:(xs ++ ys)
-
-
-{-@ automatic-instances assoc @-}
-{-@ assoc :: xs:[a] -> ys:[a] -> zs:[a] 
-          -> { xs ++ (ys ++ zs) == (xs ++ ys) ++ zs }  @-}
-assoc :: [a] -> [a] -> [a] -> () 
-assoc [] _ _       = ()
-assoc (x:xs) ys zs = assoc xs ys zs
-
-
-
