@@ -11,6 +11,7 @@ import Data.List
 {-@ infix   ++ @-}
 
 -- Lib included instead of imported to allow for inlining
+#define InlineProofCombinators
 #include "Lib/Derivations.hs"   
 
 -------------------------------------------------------------------------------
