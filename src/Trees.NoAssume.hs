@@ -55,12 +55,18 @@ data Tree = Leaf Int | Node Tree Tree
 {-@ measure size @-}
 {-@ size :: Tree -> Nat @-} 
 size :: Tree -> Int 
-size (Leaf _) = 1 
+size (Leaf _)   = 1 
 size (Node l r) = 2 + size l + size r 
 
 {-@ reflect flatten @-}
 flatten :: Tree -> [Int]
 flatten (Leaf n)   = [n]
 flatten (Node l r) = flatten l ++ flatten r  
+
+
+
+flattenOpt :: Tree -> [Int]
+{-@ flattenOpt :: t:Tree -> {v:[Int] | v = flatten t } @-}
+flattenOpt t = flatten' t [] `withTheorem` leftIdP (flatten t)
 
 

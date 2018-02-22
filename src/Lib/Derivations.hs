@@ -28,3 +28,5 @@ _ ==. x = x
 {-# INLINE (?)   #-} 
 {-# INLINE (==.) #-} 
 
+withTheorem :: a -> Proof -> a 
+withTheorem z _ = z 

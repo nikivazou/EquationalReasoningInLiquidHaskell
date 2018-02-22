@@ -43,7 +43,6 @@ reverse3' [] ys
   =   reverse [] ++ ys
   ==. [] ++ ys
   ==. ys
-  ^^^ Defined
 reverse3' (x:xs) ys = reverse (x:xs) ++ ys
 
 -------------------------------------------------------------------------------
@@ -100,3 +99,8 @@ reverse' (x:xs) ys
   ==. reverse' xs (x:([] ++ ys))
   ==. reverse' xs (x:ys)
   ^^^ Defined
+
+
+{-@ reverseOpt :: xs:[a] -> {v:[a] | v == reverse xs } @-}
+reverseOpt :: [a] -> [a]
+reverseOpt xs = reverse' xs [] `withTheorem` leftIdP (reverse xs)
