@@ -16,7 +16,7 @@ infixl 2 ^^^
 x ^^^ Defined = x 
 
 {-# INLINE (^^^) #-} 
-infixl 3 ==., ? 
+infixl 3 ==., ?, `eq` 
 
 (?) :: a -> Proof -> a 
 x ? _ = x 
@@ -25,8 +25,14 @@ x ? _ = x
 (==.) :: a -> a -> a 
 _ ==. x = x 
 
+
+{-@ eq :: x:a -> y:{a | x == y} -> {v:a | v == y && v == x} @-}
+eq :: a -> a -> a 
+_ `eq` x = x 
+
 {-# INLINE (?)   #-} 
 {-# INLINE (==.) #-} 
+{-# INLINE eq #-} 
 
 withTheorem :: a -> Proof -> a 
 withTheorem z _ = z 
