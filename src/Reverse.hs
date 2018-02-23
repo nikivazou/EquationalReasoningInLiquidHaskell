@@ -3,7 +3,7 @@
 
 {-# LANGUAGE CPP #-}
 
-module Reverse where
+module ReverseNoAssume where
 
 import Prelude hiding (reverse, (++), length)
 
@@ -17,38 +17,90 @@ import Data.List
 import Lib.Derivations
 
 -------------------------------------------------------------------------------
--- | Specification of reverse' ------------------------------------------------
+-- | Starting with an inefficent reverse'
 -------------------------------------------------------------------------------
 
-{-@ assume 
-  specReverse' :: xs:[a] -> ys:[a] 
-               -> {reverse' xs ys == reverse xs ++ ys} @-}
-specReverse' :: [a] -> [a] -> ()
-specReverse' _ _ = ()   
+{-@ reverse1' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
+reverse1' :: [a] -> [a] -> [a]
+reverse1' xs ys = reverse xs ++ ys
 
 -------------------------------------------------------------------------------
--- | Derivation of reverse' ---------------------------------------------------
+-- | Doing the case split
 -------------------------------------------------------------------------------
 
+{-@ reverse2' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
+reverse2' :: [a] -> [a] -> [a]
+reverse2' [] ys = reverse [] ++ ys
+reverse2' (x:xs) ys = reverse (x:xs) ++ ys
+
+-------------------------------------------------------------------------------
+-- | Completing the base case
+-------------------------------------------------------------------------------
+
+{-@ reverse3' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
+reverse3' :: [a] -> [a] -> [a]
+reverse3' [] ys
+  =   reverse [] ++ ys
+  ==. [] ++ ys
+  ==. ys
+reverse3' (x:xs) ys = reverse (x:xs) ++ ys
+
+-------------------------------------------------------------------------------
+-- | Working on the inductive case (just to show that we can check any intermediate step)
+-------------------------------------------------------------------------------
+
+{-@ reverse4' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
+reverse4' :: [a] -> [a] -> [a]
+reverse4' [] ys
+  =   reverse [] ++ ys
+  ==. [] ++ ys
+  ==. ys
+  ^^^ Defined
+reverse4' (x:xs) ys
+  =   reverse (x:xs) ++ ys
+  ==. (reverse xs ++ [x]) ++ ys
+  ^^^ Defined
+
+-------------------------------------------------------------------------------
+-- | More work on the inductive case (includes the recursive call)
+-------------------------------------------------------------------------------
+
+{-@ reverse5' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
+reverse5' :: [a] -> [a] -> [a]
+reverse5' [] ys
+  =   reverse [] ++ ys
+  ==. [] ++ ys
+  ==. ys
+  ^^^ Defined
+reverse5' (x:xs) ys
+  =   reverse (x:xs) ++ ys
+  ==. (reverse xs ++ [x]) ++ ys
+  ==. reverse xs ++ [x] ++ ys    ? assoc (reverse xs) [x] ys
+  ==. reverse5' xs ([x] ++ ys)
+  ^^^ Defined
+
+-------------------------------------------------------------------------------
+-- | The final thing
+-------------------------------------------------------------------------------
+
+{-@ reverse' :: xs:[a] -> ys:[a] -> {zs:[a] | zs == reverse xs ++ ys} @-}
 reverse' :: [a] -> [a] -> [a]
-{-@ reverse' :: xs:[a] -> ys:[a] -> {v:[a] | v == reverse' xs ys } @-}
-reverse' [] ys 
-  =   reverse [] ++ ys ? specReverse' [] ys 
-  ==. [] ++ ys 
-  ==. ys 
-  ^^^ Defined 
+reverse' [] ys
+  =   reverse [] ++ ys
+  ==. [] ++ ys
+  ==. ys
+  ^^^ Defined
 
 reverse' (x:xs) ys
-  =   reverse (x:xs) ++ ys    
-      ? specReverse' (x:xs) ys
-  ==. (reverse xs ++ [x]) ++ ys 
-      ? assoc (reverse xs) [x] ys
-  ==. reverse xs ++ [x] ++ ys 
-      ? specReverse' xs ([x] ++ ys)
+  =   reverse (x:xs) ++ ys
+  ==. (reverse xs ++ [x]) ++ ys
+  ==. reverse xs ++ [x] ++ ys    ? assoc (reverse xs) [x] ys
   ==. reverse' xs ([x] ++ ys)
   ==. reverse' xs (x:([] ++ ys))
   ==. reverse' xs (x:ys)
-  ^^^ Defined 
+  ^^^ Defined
 
---                -> {reverse' xs ([x] ++ ys) == reverse xs ++ ([x] ++ ys)} @-}
 
+{-@ reverseOpt :: xs:[a] -> {v:[a] | v == reverse xs } @-}
+reverseOpt :: [a] -> [a]
+reverseOpt xs = reverse' xs [] `withTheorem` leftIdP (reverse xs)
