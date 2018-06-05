@@ -1,5 +1,9 @@
+Function Optimization
+---------------------
+
 \begin{code}
 {-@ LIQUID "--reflection" @-}
+{-@ LIQUID "--structural" @-}
 {-@ LIQUID "--automatic-instances=liquidinstanceslocal" @-}
 {-@ infix   ++ @-}
 
@@ -34,7 +38,42 @@ reverse' xs
   ==. reverseApp xs []  
 \end{code}
 
+\begin{code}
+data Tree = Leaf Int | Node Tree Tree 
 
+{-@ reflect flatten @-}
+flatten :: Tree -> [Int]
+flatten (Leaf n)   = [n]
+flatten (Node l r) = flatten l ++ flatten r
+
+
+
+flattenApp :: Tree -> [Int] -> [Int]
+{-@ flattenApp :: t:Tree -> ns:[Int] -> {v:[Int] | v = flatten t ++ ns } @-}
+flattenApp (Leaf n) ns 
+  =   flatten (Leaf n) ++ ns  
+  ==. [n] ++ ns 
+  ==. n:([] ++ ns)
+  ==. [] ++ (n:ns)
+  ==. n:ns
+
+flattenApp (Node l r) ns
+  =   flatten (Node l r) ++ ns 
+  ==. (flatten l ++ flatten r) ++ ns 
+      ? assocP (flatten l) (flatten r) ns 
+  ==. flatten l ++ (flatten r ++ ns) 
+  ==. flatten l ++ (flattenApp r ns)
+  ==. flattenApp l (flattenApp r ns) 
+
+
+flatten' :: Tree -> [Int]
+{-@ flatten' :: l:Tree -> {v:[Int] | v = flatten l } @-}
+flatten' l 
+  =   flatten l 
+      ? rightIdP (flatten l)
+  ==. flatten l ++ [] 
+  ==. flattenApp l []
+\end{code}
 Repeating code from `Lists`
 \begin{code}
 {-@ measure length @-}

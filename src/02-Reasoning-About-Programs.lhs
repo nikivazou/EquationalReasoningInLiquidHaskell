@@ -1,5 +1,5 @@
 Reasoning about Programs
-=========================
+------------------------
 
 The goal of Liquid Haskell is to move reasoning about
 Haskell programs into the programs themselves and to automate this reasoning as

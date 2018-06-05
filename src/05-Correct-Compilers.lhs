@@ -1,3 +1,6 @@
+Case Study: Correct Compilers
+------------------------------
+
 \begin{code}
 {-@ LIQUID "--reflection" @-}
 {-@ LIQUID "--structural" @-}

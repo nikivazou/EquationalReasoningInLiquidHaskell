@@ -45,14 +45,20 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h4 style="border-bottom: 2px solid #ddd"><i>$author$</i></h4>
 <br>
 
-<p><a href="book.pdf">[PDF]</a></p>
+<p><a href="http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/main.pdf">[PDF]</a></p>
 
 <ul class='chapter'>
-<li><a href='Lists.html'><b>1.</b>Lightweight Reasoning</a></li>
+<li><a href='02-Reasoning-About-Programs.html'><b>1.</b>Reasoning about Programs</a></li>
 <ul class='section'>
-<li><a href='Lists.html#deep-reasoning'><b>1.1.</b> Deep Reasoning</a></li>
-<li><a href='Lists.html#induction-on-lists'><b>1.2.</b> Induction on Lists</a></li>
-<li><a href='Lists.html#proof-automation'><b>1.3.</b> Proof Automation</a></li>
+<li><a href='02-Reasoning-About-Programs.html#lightweight-reasoning'><b>1.1.</b> Lightweight Reasoning</a></li>
+<li><a href='02-Reasoning-About-Programs.html#induction-on-lists'><b>1.2.</b> Induction on Lists</a></li>
+<li><a href='02-Reasoning-About-Programs.html#proof-automation'><b>1.3.</b> Proof Automation</a></li>
+</ul>
+<li><a href='04-Function-Optimization.html'><b>2.</b>Function Optimization</a></li>
+<ul class='section'>
+</ul>
+<li><a href='05-Correct-Compilers.html'><b>3.</b>Case Study: Correct Compilers</a></li>
+<ul class='section'>
 </ul>
 </ul>
 
