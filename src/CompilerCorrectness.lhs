@@ -1,67 +1,18 @@
+\begin{code}
 {-@ LIQUID "--reflection" @-}
+{-@ LIQUID "--structural" @-}
+{-@ infixl 1 >>= @-}
+{-@ infixr 5 ++ @-}
+
 module Compiler where
 
 import Prelude hiding ((++), Monad(..))
 import Language.Haskell.Liquid.Equational
 
 
--- Operators from Prelude
-
-infixr 5 ++
-{-@ infixr 5 ++ @-}
-{-@ reflect ++ @-}
-(++) :: [a] -> [a] -> [a]
-[] ++ ys = ys
-(x:xs) ++ ys = x:(xs ++ ys)
-
-infixl 1 >>=
-{-@ infixl 1 >>= @-}
-{-@ reflect >>= @-}
-(>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
-(Just x) >>= f = f x
-Nothing  >>= _ = Nothing
-
-
--- Facts about ++
-
-{-@ appRightIdP :: xs:[a] -> {xs ++ [] = xs} @-}
-appRightIdP [] =
-  [] ++ []
-  ==. []
-  *** QED
-appRightIdP (x:xs) =
-  (x:xs) ++ []
-  ==. x:(xs ++ [])
-  ? appRightIdP xs
-  ==. x:xs
-  *** QED
-
-{-@ appAssocP :: xs:[a] -> ys:[a] -> zs:[a] -> {(xs ++ ys) ++ zs = xs ++ ys ++ zs} @-}
-appAssocP [] ys zs =
-  ([] ++ ys) ++ zs
-  ==. ys ++ zs
-  ==. [] ++ ys ++ zs
-  *** QED
-appAssocP (x:xs) ys zs =
-  ((x:xs) ++ ys) ++ zs
-  ==. (x:(xs ++ ys)) ++ zs
-  ==. x:((xs ++ ys) ++ zs)
-  ? appAssocP xs ys zs
-  ==. x:(xs ++ ys ++ zs)
-  ==. (x:xs) ++ ys ++ zs
-  *** QED
-
-
--- Syntax and semantics
 
 data Expr = Val Int | Add Expr Expr
-{-@ data Expr [exprSize] @-}
 
-{-@ measure exprSize @-}
-{-@ exprSize :: Expr -> Nat @-}
-exprSize :: Expr -> Int
-exprSize (Val _) = 1
-exprSize (Add x y) = 1 + exprSize x + exprSize y
 
 {-@ reflect eval @-}
 eval :: Expr -> Int
@@ -237,3 +188,53 @@ correctnessP' e =
   ==. exec [] [eval e]
   ==. Just [eval e]
   *** QED
+\end{code}
+
+
+-- Helpers 
+
+\begin{code}
+-- Operators from Prelude
+
+infixr 5 ++
+{-@ reflect ++ @-}
+(++) :: [a] -> [a] -> [a]
+[] ++ ys = ys
+(x:xs) ++ ys = x:(xs ++ ys)
+
+infixl 1 >>=
+{-@ reflect >>= @-}
+(>>=) :: Maybe a -> (a -> Maybe b) -> Maybe b
+(Just x) >>= f = f x
+Nothing  >>= _ = Nothing
+
+
+-- Facts about ++
+
+{-@ appRightIdP :: xs:[a] -> {xs ++ [] = xs} @-}
+appRightIdP [] =
+  [] ++ []
+  ==. []
+  *** QED
+appRightIdP (x:xs) =
+  (x:xs) ++ []
+  ==. x:(xs ++ [])
+  ? appRightIdP xs
+  ==. x:xs
+  *** QED
+
+{-@ appAssocP :: xs:[a] -> ys:[a] -> zs:[a] -> {(xs ++ ys) ++ zs = xs ++ ys ++ zs} @-}
+appAssocP [] ys zs =
+  ([] ++ ys) ++ zs
+  ==. ys ++ zs
+  ==. [] ++ ys ++ zs
+  *** QED
+appAssocP (x:xs) ys zs =
+  ((x:xs) ++ ys) ++ zs
+  ==. (x:(xs ++ ys)) ++ zs
+  ==. x:((xs ++ ys) ++ zs)
+  ? appAssocP xs ys zs
+  ==. x:(xs ++ ys ++ zs)
+  ==. (x:xs) ++ ys ++ zs
+  *** QED
+\end{code}
