@@ -78,6 +78,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href='05-Correct-Compilers.html#a-faster-compiler'><b>5.5.</b> A faster compiler</a></li>
 <li><a href='05-Correct-Compilers.html#appendix'><b>5.6.</b> Appendix</a></li>
 </ul>
+<li><a href='06-Related-Work.html'><b>6.</b>Related Work</a></li>
+<ul class='section'>
+<li><a href='06-Related-Work.html#operator-based-equational-reasoning'><b>6.1.</b> Operator-based Equational Reasoning</a></li>
+<li><a href='06-Related-Work.html#verification-in-haskell'><b>6.2.</b> Verification in Haskell</a></li>
+</ul>
+<li><a href='07-Conclusion.html'><b>7.</b>Conclusion</a></li>
+<ul class='section'>
+</ul>
 </ul>
 
 
