@@ -48,19 +48,35 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p><a href="http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/main.pdf">[PDF]</a></p>
 
 <ul class='chapter'>
-<li><a href='02-Reasoning-About-Programs.html'><b>1.</b>Reasoning about Programs</a></li>
+<li><a href='01-Introduction.html'><b>1.</b>Introduction</a></li>
 <ul class='section'>
-<li><a href='02-Reasoning-About-Programs.html#lightweight-reasoning'><b>1.1.</b> Lightweight Reasoning</a></li>
-<li><a href='02-Reasoning-About-Programs.html#induction-on-lists'><b>1.2.</b> Induction on Lists</a></li>
-<li><a href='02-Reasoning-About-Programs.html#proof-automation'><b>1.3.</b> Proof Automation</a></li>
 </ul>
-<li><a href='04-Function-Optimization.html'><b>2.</b>Function Optimization</a></li>
+<li><a href='02-Reasoning-About-Programs.html'><b>2.</b>Reasoning about Programs</a></li>
 <ul class='section'>
-<li><a href='04-Function-Optimization.html#example-reversing-a-list'><b>2.1.</b> Example: Reversing a List</a></li>
-<li><a href='04-Function-Optimization.html#example-flattening-a-tree'><b>2.2.</b> Example: Flattening a Tree</a></li>
+<li><a href='02-Reasoning-About-Programs.html#lightweight-reasoning'><b>2.1.</b> Lightweight Reasoning</a></li>
+<li><a href='02-Reasoning-About-Programs.html#induction-on-lists'><b>2.2.</b> Induction on Lists</a></li>
+<li><a href='02-Reasoning-About-Programs.html#proof-automation'><b>2.3.</b> Proof Automation</a></li>
 </ul>
-<li><a href='05-Correct-Compilers.html'><b>3.</b>Case Study: Correct Compilers</a></li>
+<li><a href='03-Totality.html'><b>3.</b>Totality and Termination</a></li>
 <ul class='section'>
+<li><a href='03-Totality.html#totality-checking'><b>3.1.</b> Totality Checking</a></li>
+<li><a href='03-Totality.html#termination-checking'><b>3.2.</b> Termination Checking</a></li>
+<li><a href='03-Totality.html#uncaught-termination'><b>3.3.</b> Uncaught termination</a></li>
+</ul>
+<li><a href='04-Function-Optimization.html'><b>4.</b>Function Optimization</a></li>
+<ul class='section'>
+<li><a href='04-Function-Optimization.html#example-reversing-a-list'><b>4.1.</b> Example: Reversing a List</a></li>
+<li><a href='04-Function-Optimization.html#example-flattening-a-tree'><b>4.2.</b> Example: Flattening a Tree</a></li>
+<li><a href='04-Function-Optimization.html#appendix'><b>4.3.</b> Appendix</a></li>
+</ul>
+<li><a href='05-Correct-Compilers.html'><b>5.</b>Case Study: Correct Compilers</a></li>
+<ul class='section'>
+<li><a href='05-Correct-Compilers.html#a-simple-stack-machine'><b>5.1.</b> A simple stack machine</a></li>
+<li><a href='05-Correct-Compilers.html#a-note-on-totality'><b>5.2.</b> A note on totality</a></li>
+<li><a href='05-Correct-Compilers.html#compilation'><b>5.3.</b> Compilation</a></li>
+<li><a href='05-Correct-Compilers.html#correctness'><b>5.4.</b> Correctness</a></li>
+<li><a href='05-Correct-Compilers.html#a-faster-compiler'><b>5.5.</b> A faster compiler</a></li>
+<li><a href='05-Correct-Compilers.html#appendix'><b>5.6.</b> Appendix</a></li>
 </ul>
 </ul>
 
