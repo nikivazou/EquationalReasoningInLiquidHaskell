@@ -56,6 +56,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ul>
 <li><a href='04-Function-Optimization.html'><b>2.</b>Function Optimization</a></li>
 <ul class='section'>
+<li><a href='04-Function-Optimization.html#example-reversing-a-list'><b>2.1.</b> Example: Reversing a List</a></li>
+<li><a href='04-Function-Optimization.html#example-flattening-a-tree'><b>2.2.</b> Example: Flattening a Tree</a></li>
 </ul>
 <li><a href='05-Correct-Compilers.html'><b>3.</b>Case Study: Correct Compilers</a></li>
 <ul class='section'>
