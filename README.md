@@ -3,7 +3,7 @@ Find the paper [here](http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/main.
 
 - How to run the examples 
   - Locally: run [Liquid Haskell](https://github.com/ucsd-progsys/liquidhaskell) on the source files in `src` 
-  - Online: Use this [link](http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/) **only after** [this PR](https://github.com/ucsd-progsys/liquidhaskell/pull/1327) is merged and use the online liquid server.
+  - Online: At [http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/](http://goto.ucsd.edu/~nvazou/theorem-proving-for-all/) 
   
 - How to contribute
   - git clone [liquid-client](https://github.com/ucsd-progsys/liquid-client) in the directory outside this. 
