@@ -79,7 +79,7 @@ For instance, `length` is a measure: it has one argument, is defined by one
 equation for each constructor, and calls only itself and the arithmetic
 operator `(+)`.  To allow `length` to appear in refinements, we declare it to
 be a measure:
-%
+
 \begin{code}
 {-@ measure length @-}
 \end{code}
@@ -217,8 +217,8 @@ refinement on the arguments of a function. In other words, the ``value'' of a
 theorem has no meaning.
 
 Proof combinators themselves are then simply Haskell
-functions, defined in in the `proof-combinators`.  The most basic 
-example is the `***` function that takes any expression and ignores
+functions, defined in the [`Equational` module](https://github.com/ucsd-progsys/liquidhaskell/blob/develop/include/Language/Haskell/Liquid/Equational.hs) that comes with Liquid Haskell. 
+The most basic example is the `***` function that takes any expression and ignores
 its value, returning a proof:
 \begin{spec}
   data QED = QED
@@ -338,8 +338,6 @@ inductive hypothesis, which we invoke via the explanation operator `(?)`.
 
 We use the lemma `distributivityP`, which states that list
 reversal distributes (contravariantly) over list append:
-%
-
 
 \begin{code}
 distributivityP :: [a] -> [a] -> Proof
