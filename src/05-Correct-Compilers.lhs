@@ -178,7 +178,7 @@ the same result as executing `c` and then executing `d`:
   exec (c ++ d) s = exec d (exec c s)
 \end{spec}
 
-Unfortunately, this doesn't typecheck, because @exec@
+Unfortunately, this doesn't typecheck, because `exec`
 takes a `Stack` but returns a `Maybe Stack`.  What we need is
 some way to run `exec d` only if `exec c` succeeds.  Fortunately,
 this already exists in Haskell --- it's just monadic bind for
