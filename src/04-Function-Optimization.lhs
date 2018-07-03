@@ -101,8 +101,8 @@ reverseApp (x:xs) ys
   ==. (reverse xs ++ [x]) ++ ys
 \end{code}
 
-At this point, we have expanded as much as we can, but @reverseApp@ still
-uses the original, inefficient @reverse@ functions, so we are not done.
+At this point, we have expanded as much as we can, but `reverseApp` still
+uses the original, inefficient `reverse` functions, so we are not done.
 However, we proved at the end of [Section 2](02-Reasoning-About-Programs.html) that append is
 associative, so we can use this fact to transform `(reverse xs ++ [x]) ++ ys`
 into `reverse xs ++ ([x] ++ ys)`, and then continue expanding:

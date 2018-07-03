@@ -254,7 +254,7 @@ which is defined as follows:
   x ? _ = x
 \end{spec}
 For example, we can invoke the theorem `singletonP` for
-the value @1@ simply by mentioning `singletonP 1` in a proof:
+the value `1` simply by mentioning `singletonP 1` in a proof:
 \begin{code}
 singleton1P :: Proof
 {-@ singleton1P :: { reverse [1] == [1] } @-}
