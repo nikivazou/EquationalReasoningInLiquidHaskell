@@ -9,7 +9,7 @@ external SMT solver.
 
 \begin{code}
 {-@ LIQUID "--reflection" @-}
-{-@ LIQUID "--automatic-instances=liquidinstanceslocal" @-}
+{-@ LIQUID "--ple"        @-}
 
 module Lists where
 

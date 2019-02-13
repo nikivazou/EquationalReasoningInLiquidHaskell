@@ -7,9 +7,8 @@ show how it can be used to calculate a correct and efficient compiler
 for arithmetic expressions with addition, as in [Graham's book](http://www.cs.nott.ac.uk/~pszgmh/pih.html).
 
 \begin{code}
-{-@ LIQUID "--automatic-instances=liquidinstanceslocal" @-}
 {-@ LIQUID "--reflection" @-}
-{-@ LIQUID "--structural" @-}
+{-@ LIQUID "--ple-local" @-}
 {-@ infix    :   @-}
 {-@ infixl 1 >>= @-}
 {-@ infixr 5 ++  @-}

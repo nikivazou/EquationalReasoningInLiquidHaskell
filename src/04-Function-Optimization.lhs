@@ -6,8 +6,7 @@ used to derive new, more performant function definitions from specifications.
 
 \begin{code}
 {-@ LIQUID "--reflection" @-}
-{-@ LIQUID "--structural" @-}
-{-@ LIQUID "--automatic-instances=liquidinstanceslocal" @-}
+{-@ LIQUID "--ple"        @-}
 {-@ infix   ++ @-}
 
 module Derivation where 
@@ -24,11 +23,11 @@ Example: Reversing a List
 The `reverse` function that we defined in [before](02-Reasoning-About-Programs.html) was simple and easy
 to reason about, but it is rather inefficient.  In particular, for each element in
 the input list, `reverse` appends it to the end of the reversed tail of the list:
-%
+
 \begin{spec}
   reverse (x:xs) = reverse xs ++ [x]
 \end{spec}
-%
+
 Because the runtime of `++` is linear in the length of its first argument,
 the runtime of `reverse` is quadratic.  For example, reversing a list of ten thousand
 elements would take around fifty million reduction steps, which is excessive.
@@ -87,7 +86,7 @@ updated the right-hand side correctly.
 **Step 2: Equational Rewriting**
 Now we want to rewrite the right-hand sides of `reverseApp` to more efficient
 forms, while ensuring that our function remains correct.  To do so, we
-can use the the `(==.)`operator to show that each change we make gives us the
+can use the `(==.)` operator to show that each change we make gives us the
 same function.  Whenever we add a line, Liquid Haskell confirms
 that this step is valid.  We begin by simply expanding definitions:
 
