@@ -259,7 +259,6 @@ generalizedCorrectnessP (Val n) s
 generalizedCorrectnessP (Add x y) s
   =   exec (comp (Add x y)) s
   ==. exec (comp x ++ comp y ++ [ADD]) s
-  ==. exec (comp x ++ comp y ++ [ADD]) s
   ? sequenceP (comp x) (comp y ++ [ADD]) s
   ==. (exec (comp x) s >>= exec (comp y ++ [ADD]))
   ? generalizedCorrectnessP x s
